@@ -7,6 +7,6 @@ import retrofit2.http.GET;
 
 public interface APIEndpoint {
 
-    @GET()
+    @GET("s/2iodh4vg0eortkl/facts.json")
     Call<APIResponse> getResponse();
 }

@@ -4,4 +4,6 @@
     <dimen name="dimen_10dp">10dp</dimen>
     <dimen name="dimen_24sp">24sp</dimen>
     <dimen name="dimen_0dp">0dp</dimen>
+    <dimen name="dimen_5dp">5dp</dimen>
+    <dimen name="dimen_18sp">18sp</dimen>
 </resources>

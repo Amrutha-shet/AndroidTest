@@ -1,50 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="recycleritemVM" type="com.example.androidtest.viewmodels.RecyclerViewModel">
-        </variable>
+        <import type="android.view.View"></import>
+
         <variable name="datamodel" type="com.example.androidtest.model.dataModel.DataModelItem"></variable>
 
     </data>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-              xmlns:tool="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              >
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       xmlns:tool="http://schemas.android.com/apk/res-auto"
+                                                       android:orientation="vertical"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:background="@color/color_e3e4e6"
+                                                       android:visibility="@{(datamodel.discription == null &amp;&amp; datamodel.title == null &amp;&amp; datamodel.imageURL == null)? View.GONE:View.VISIBLE}"
+    >
 
-    <TextView android:id="@+id/title"
-              android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:textSize="@dimen/dimen_32sp"
-              android:textColor="@android:color/holo_blue_light"
-              android:text="@{datamodel.title}"
+        <TextView android:id="@+id/title"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_18sp"
+                  android:textColor="@android:color/background_dark"
+                  android:text="@{datamodel.title}"
+                  android:gravity="center"
+                  android:layout_marginTop="@dimen/dimen_5dp"
+                  tool:layout_constraintTop_toTopOf="parent"
+                  tool:layout_constraintLeft_toLeftOf="parent"
+                  tool:layout_constraintRight_toRightOf="parent"
+                  android:visibility="@{datamodel.title != null? View.VISIBLE:View.GONE}"
+        />
 
-              android:padding="@dimen/dimen_10dp"
-
-    />
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dimen_10dp">
-        <TextView
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/dimen_24sp"
-                android:id="@+id/discription"
-                android:layout_width="@dimen/dimen_0dp"
-                android:layout_height="wrap_content"
-                android:text="@{datamodel.discription}"
-                android:textColor="@android:color/black"
-                android:layout_weight="7"/>
         <ImageView
                 android:id="@+id/image"
-                android:layout_width="@dimen/dimen_0dp"
-                android:layout_height="match_parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_weight="3"
                 android:scaleType="fitCenter"
-                app:imageUrl="@{recycleritemVM.imageUrl}"/>
+                android:padding="@dimen/dimen_10dp"
+                bind:imageUrl="@{datamodel.imageURL}"
+                tool:layout_constraintTop_toBottomOf="@id/title"
+                tool:layout_constraintRight_toRightOf="parent"
+                tool:layout_constraintLeft_toRightOf="@id/discription"
+                android:visibility="@{datamodel.imageURL != null? View.VISIBLE:View.GONE}"/>
 
-    </LinearLayout>
+        <TextView
+                android:textSize="12sp"
+                android:id="@+id/discription"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_height="wrap_content"
+                android:text="@{datamodel.discription}"
+                android:padding="@dimen/dimen_10dp"
+                android:visibility="@{datamodel.discription != null? View.VISIBLE:View.GONE}"
+                android:textColor="@android:color/black"
+                android:layout_weight="7"
+                tool:layout_constraintLeft_toLeftOf="parent"
+                tool:layout_constraintRight_toLeftOf="@id/image"
+                tool:layout_constraintTop_toBottomOf="@id/title"/>
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/background_dark"
+              android:layout_marginRight="@dimen/dimen_10dp"
+              android:layout_marginLeft="@dimen/dimen_10dp"
+              tool:layout_constraintBottom_toBottomOf="parent"
+              tool:layout_constraintLeft_toLeftOf="parent"
+              tool:layout_constraintRight_toRightOf="parent"
+              android:visibility="@{(datamodel.discription == null &amp;&amp; datamodel.title == null &amp;&amp; datamodel.imageURL == null)? View.GONE:View.VISIBLE}"></View>
 
-</LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

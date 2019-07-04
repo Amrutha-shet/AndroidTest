@@ -34,25 +34,7 @@ class ResponseRepo {
         responseApi = RetrofitService.cteateService(APIEndpoint::class.java)
     }
 
-    fun getResponse(): MutableLiveData<APIResponse> {
-        val responseData = MutableLiveData<APIResponse>()
-        responseApi.getResponse().enqueue(object : Callback<APIResponse> {
-            override fun onResponse(
-                call: Call<APIResponse>,
-                response: Response<APIResponse>
-            ) {
-                if (response.isSuccessful()) {
-                    responseData.setValue(response.body())
-                    Log.d("Response",response.body().toString())
-                }
-            }
 
-            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                responseData.setValue(null)
-            }
-        })
-        return responseData
-    }
 
 
 }
