@@ -76,17 +76,20 @@ class ListFragment : Fragment() {
         viewModel.mutableLiveData.observe(this, Observer {
             if (it != null) {
                 apiResponse = it
-                if (!TextUtils.isEmpty(apiResponse?.title)) {
-
-                    viewModel.title.postValue(apiResponse?.title)
-                    Log.d("Response Arrived", apiResponse?.title)
-                    binding
+                if (!TextUtils.isEmpty(apiResponse.title)) {
+                    binding.toolbar.setTitle(apiResponse.title)
                 }
 
-                if (apiResponse?.rows != null && apiResponse?.rows?.size!! > 0) {
-                    for (row in apiResponse?.rows!!) {
+                if (apiResponse.rows != null && apiResponse.rows?.size!! > 0) {
+                    for (row in apiResponse.rows!!) {
+                        var description : String ? = context?.resources?.getString(R.string.content_not_available)
+                        if(!TextUtils.isEmpty(row?.description)) {
+                            description = row.description
+                        } else if (row?.title == null && row?.description == null && row?.imageHref ==null) {
+                            description = null
+                        }
 
-                        rows?.add(DataModelItem(row?.title, row?.description, row?.imageHref))
+                        rows?.add(DataModelItem(row?.title, description, row?.imageHref))
                     }
                 }
                 binding.simpleSwipeRefreshLayout.setRefreshing(false);
