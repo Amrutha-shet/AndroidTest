@@ -20,7 +20,7 @@ class ListViewModel : BaseViewModel() {
     private var newsRepository: ResponseRepo? = null
     private var responseApi: APIEndpoint ? = null
     var responseData : APIResponse ? = null
-    var title: MutableLiveData<String> = MutableLiveData()
+
 
     fun init() {
 

@@ -9,21 +9,17 @@
     </data>
     <LinearLayout
             android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@color/color_e0e0e0">
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_margin="@dimen/dimen_5dp">
-            <TextView
-                    android:id="@+id/main_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-            android:textSize="@dimen/dimen_24sp"
+                android:layout_height="?attr/actionBarSize"
 
-                    android:text="@={listVM.title}"
-            android:textColor="@android:color/darker_gray"/>
+        android:background="@color/color_64b5f6"
+        app:titleTextColor="@color/color_000000">
+
         </androidx.appcompat.widget.Toolbar>
+
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                       android:id="@+id/simpleSwipeRefreshLayout"
