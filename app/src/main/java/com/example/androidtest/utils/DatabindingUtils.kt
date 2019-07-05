@@ -15,8 +15,6 @@ object DataBindingUtils {
         @BindingAdapter("bind:imageUrl")
         fun loadImage(view: ImageView, imageUrl: String?) {
             imageUrl?.run {
-                Log.d("Image URL", imageUrl)
-
                 Glide
                     .with(view.getContext())
                     .load(imageUrl)

@@ -77,19 +77,20 @@ class ListFragment : Fragment() {
      * Used to get a get the response data via observer
      * */
     private fun initObserver() {
-        val rows: MutableList<DataModelItem>? = ArrayList()
+
         viewModel.mutableLiveData.observe(this, Observer { apiResponse ->
             if (apiResponse != null) {
                 if (!TextUtils.isEmpty(apiResponse.title)) {
                     binding.toolbar.setTitle(apiResponse.title)
                 }
-                setRowdataList(apiResponse, rows)
+
+                setRowdataList(apiResponse)
 
                 binding.simpleSwipeRefreshLayout.setRefreshing(false)
                 binding.progressBar.visibility = View.GONE
                 binding.progressBarLayout.visibility = View.GONE
 
-                setupRecyclerView(rows)
+
             }
         })
     }
@@ -100,9 +101,8 @@ class ListFragment : Fragment() {
     * @param rows
     * */
     private fun setRowdataList(
-        apiResponse: APIResponse,
-        rows: MutableList<DataModelItem>?
-    ) {
+        apiResponse: APIResponse           ) {
+        var rows: MutableList<DataModelItem>? = ArrayList()
         if (apiResponse.rows != null && apiResponse.rows?.size!! > 0) {
             for (row in apiResponse.rows!!) {
                 var description: String? = null
@@ -129,6 +129,8 @@ class ListFragment : Fragment() {
 
             }
         }
+
+        setupRecyclerView(rows)
     }
 
     /*
