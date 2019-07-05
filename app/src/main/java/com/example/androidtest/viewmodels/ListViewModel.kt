@@ -25,12 +25,8 @@ class ListViewModel : BaseViewModel() {
     fun init() {
 
         responseApi = RetrofitService.cteateService(APIEndpoint::class.java)
-
-
         newsRepository = ResponseRepo.instance
         getResponse()
-
-
     }
 
 

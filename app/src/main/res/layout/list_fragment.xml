@@ -24,6 +24,11 @@
                     android:text="@={listVM.title}"
             android:textColor="@android:color/darker_gray"/>
         </androidx.appcompat.widget.Toolbar>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                      android:id="@+id/simpleSwipeRefreshLayout"
+                                                      android:layout_width="match_parent"
+                                                      android:layout_height="match_parent">
        <androidx.recyclerview.widget.RecyclerView
                android:layout_marginTop="@dimen/dimen_10dp"
                android:id="@+id/recycler_view"
@@ -31,5 +36,6 @@
                android:layout_height="wrap_content">
 
        </androidx.recyclerview.widget.RecyclerView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

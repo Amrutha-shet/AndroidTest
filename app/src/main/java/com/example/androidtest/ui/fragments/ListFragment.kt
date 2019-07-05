@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.androidtest.R
 
 import com.example.androidtest.databinding.ListFragmentBinding
@@ -56,17 +57,27 @@ class ListFragment : Fragment() {
         callAPI()
 
         initObserver()
+
+        setPullToRefreshListener()
     }
 
+    private fun setPullToRefreshListener() {
+        binding.simpleSwipeRefreshLayout.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener{
+            override fun onRefresh() {
+                callAPI()
+            }
+
+        })
+    }
     private fun initObserver() {
-        var apiResponse: APIResponse? = null
+        var apiResponse: APIResponse
         var rows: MutableList<DataModelItem>? = ArrayList()
-        var title: String? = ""
+
         viewModel.mutableLiveData.observe(this, Observer {
             if (it != null) {
                 apiResponse = it
                 if (!TextUtils.isEmpty(apiResponse?.title)) {
-                    title = apiResponse?.title
+
                     viewModel.title.postValue(apiResponse?.title)
                     Log.d("Response Arrived", apiResponse?.title)
                     binding
@@ -78,6 +89,7 @@ class ListFragment : Fragment() {
                         rows?.add(DataModelItem(row?.title, row?.description, row?.imageHref))
                     }
                 }
+                binding.simpleSwipeRefreshLayout.setRefreshing(false);
                 setupRecyclerView(rows)
             }
         })
@@ -91,22 +103,12 @@ class ListFragment : Fragment() {
 
     private fun callAPI() {
 
-        Handler().postDelayed(object : Runnable{
-            override fun run() {
-                val mContext = context
-                if(NetworkUtility.isNetworkAvailable(mContext!!)) {
-                    viewModel.init()
-                } else {
-                    Toast.makeText(mContext,"Please ckeck your internet connection", Toast.LENGTH_SHORT)
-                }
-            }
-
-        },2000L
-
-        )
-
-
-
+        val mContext = context
+        if (NetworkUtility.isNetworkAvailable(mContext!!)) {
+            viewModel.init()
+        } else {
+            Toast.makeText(mContext, "Please ckeck your internet connection", Toast.LENGTH_SHORT)
+        }
     }
 
     private fun setupRecyclerView(rowList: MutableList<DataModelItem>?) {
@@ -114,7 +116,7 @@ class ListFragment : Fragment() {
 
         if (recyclerviewAdapter == null) {
             recyclerView?.layoutManager = (LinearLayoutManager(context))
-            recyclerviewAdapter =  RecyclerviewAdapter(rowList)
+            recyclerviewAdapter = RecyclerviewAdapter(rowList)
             recyclerView?.adapter = recyclerviewAdapter
 
         } else {
