@@ -45,8 +45,6 @@ class ListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
         binding.listVM = viewModel
         binding.lifecycleOwner = this
-
-        // Inflate the layout for this fragment
         return view
     }
 
@@ -70,29 +68,38 @@ class ListFragment : Fragment() {
         })
     }
     private fun initObserver() {
-        var apiResponse: APIResponse
-        var rows: MutableList<DataModelItem>? = ArrayList()
-
-        viewModel.mutableLiveData.observe(this, Observer {
-            if (it != null) {
-                apiResponse = it
+        val rows: MutableList<DataModelItem>? = ArrayList()
+        viewModel.mutableLiveData.observe(this, Observer {apiResponse ->
+            if (apiResponse != null) {
                 if (!TextUtils.isEmpty(apiResponse.title)) {
                     binding.toolbar.setTitle(apiResponse.title)
                 }
 
                 if (apiResponse.rows != null && apiResponse.rows?.size!! > 0) {
                     for (row in apiResponse.rows!!) {
-                        var description : String ? = context?.resources?.getString(R.string.content_not_available)
-                        if(!TextUtils.isEmpty(row?.description)) {
+                        var description : String?  = null
+                        var title : String ? = null
+                        var imageURL : String? = null
+                        if (row?.title != null && !TextUtils.isEmpty(row.title)) {
+                            title = row.title
+                        }
+                        if (row?.description != null && !TextUtils.isEmpty(row.title)) {
                             description = row.description
-                        } else if (row?.title == null && row?.description == null && row?.imageHref ==null) {
-                            description = null
+                        }
+                        if (row?.imageHref != null && !TextUtils.isEmpty(row.imageHref)) {
+                            imageURL = row.imageHref
                         }
 
-                        rows?.add(DataModelItem(row?.title, description, row?.imageHref))
+                        if(title == null && description == null && imageURL == null) {
+                            continue
+                        } else {
+                            rows?.add(DataModelItem(title, description, imageURL))
+                        }
+
                     }
                 }
-                binding.simpleSwipeRefreshLayout.setRefreshing(false);
+                binding.simpleSwipeRefreshLayout.setRefreshing(false)
+                binding.ProgressBar.visibility = View.GONE
                 setupRecyclerView(rows)
             }
         })
@@ -110,7 +117,8 @@ class ListFragment : Fragment() {
         if (NetworkUtility.isNetworkAvailable(mContext!!)) {
             viewModel.init()
         } else {
-            Toast.makeText(mContext, "Please ckeck your internet connection", Toast.LENGTH_SHORT)
+            Toast.makeText(mContext, "Please ckeck your internet connection", Toast.LENGTH_SHORT).show()
+            binding.simpleSwipeRefreshLayout.setRefreshing(false)
         }
     }
 

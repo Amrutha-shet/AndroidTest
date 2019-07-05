@@ -21,9 +21,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:visibility="@{(datamodel.discription == null &amp;&amp; datamodel.title == null &amp;&amp; datamodel.imageURL == null)? View.GONE:View.VISIBLE}"
-        >
+               >
 
             <TextView android:id="@+id/title"
                       android:layout_width="match_parent"
@@ -41,8 +39,8 @@
 
             <ImageView
                     android:id="@+id/image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="@dimen/dimen_120dp"
+                    android:layout_height="@dimen/dimen_130dp"
                     android:layout_weight="3"
                     android:scaleType="fitCenter"
                     android:padding="@dimen/dimen_10dp"
@@ -56,7 +54,6 @@
                     android:textSize="12sp"
                     android:id="@+id/discription"
                     android:layout_width="0dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
                     android:layout_height="wrap_content"
                     android:text="@{datamodel.discription}"
                     android:padding="@dimen/dimen_10dp"
