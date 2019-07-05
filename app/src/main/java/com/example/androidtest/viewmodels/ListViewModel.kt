@@ -18,8 +18,8 @@ import java.net.SocketTimeoutException
 class ListViewModel : BaseViewModel() {
     var mutableLiveData: MutableLiveData<APIResponse> = MutableLiveData()
     private var newsRepository: ResponseRepo? = null
-    private var responseApi: APIEndpoint ? = null
-    var responseData : APIResponse ? = null
+    private var responseApi: APIEndpoint? = null
+    var responseData: APIResponse? = null
 
 
     fun init() {
@@ -29,7 +29,9 @@ class ListViewModel : BaseViewModel() {
         getResponse()
     }
 
-
+    /*
+    * Used to call api via retrofit instance
+    * */
     fun getResponse() {
 
 
@@ -38,12 +40,10 @@ class ListViewModel : BaseViewModel() {
                 call: Call<APIResponse>,
                 response: Response<APIResponse>
             ) {
-                Log.d("Response", response.body().toString())
                 if (response.isSuccessful()) {
                     responseData = response.body()
 
-                    Log.d("Response Success", response.body().toString())
-                    if(responseData != null) {
+                    if (responseData != null) {
                         mutableLiveData.value = responseData
                     }
 

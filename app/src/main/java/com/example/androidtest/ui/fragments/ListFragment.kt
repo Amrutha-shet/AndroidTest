@@ -40,6 +40,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false)
         val view: View = binding.root
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
@@ -59,60 +60,89 @@ class ListFragment : Fragment() {
         setPullToRefreshListener()
     }
 
+    /**
+     * Method to get callback of pull to refresh
+     *
+     * */
     private fun setPullToRefreshListener() {
-        binding.simpleSwipeRefreshLayout.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener{
+        binding.simpleSwipeRefreshLayout.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
                 callAPI()
             }
 
         })
     }
+
+    /*
+     * Used to get a get the response data via observer
+     * */
     private fun initObserver() {
         val rows: MutableList<DataModelItem>? = ArrayList()
-        viewModel.mutableLiveData.observe(this, Observer {apiResponse ->
+        viewModel.mutableLiveData.observe(this, Observer { apiResponse ->
             if (apiResponse != null) {
                 if (!TextUtils.isEmpty(apiResponse.title)) {
                     binding.toolbar.setTitle(apiResponse.title)
                 }
+                setRowdataList(apiResponse, rows)
 
-                if (apiResponse.rows != null && apiResponse.rows?.size!! > 0) {
-                    for (row in apiResponse.rows!!) {
-                        var description : String?  = null
-                        var title : String ? = null
-                        var imageURL : String? = null
-                        if (row?.title != null && !TextUtils.isEmpty(row.title)) {
-                            title = row.title
-                        }
-                        if (row?.description != null && !TextUtils.isEmpty(row.description)) {
-                            description = row.description
-                        } else if (row?.description == null && row?.title != null && row.imageHref != null ){
-                            description = context?.resources?.getString(R.string.content_not_available)
-                        }
-                        if (row?.imageHref != null && !TextUtils.isEmpty(row.imageHref)) {
-                            imageURL = row.imageHref
-                        }
-
-                        if(title == null && description == null && imageURL == null) {
-                            continue
-                        } else {
-                            rows?.add(DataModelItem(title, description, imageURL))
-                        }
-
-                    }
-                }
                 binding.simpleSwipeRefreshLayout.setRefreshing(false)
                 binding.progressBar.visibility = View.GONE
                 binding.progressBarLayout.visibility = View.GONE
+
                 setupRecyclerView(rows)
             }
         })
     }
 
+    /*
+    * Used to get a formatted list of row data
+    * @param apiResponse
+    * @param rows
+    * */
+    private fun setRowdataList(
+        apiResponse: APIResponse,
+        rows: MutableList<DataModelItem>?
+    ) {
+        if (apiResponse.rows != null && apiResponse.rows?.size!! > 0) {
+            for (row in apiResponse.rows!!) {
+                var description: String? = null
+                var title: String? = null
+                var imageURL: String? = null
+
+                if (row?.title != null && !TextUtils.isEmpty(row.title)) {
+                    title = row.title
+                }
+                if (row?.description != null && !TextUtils.isEmpty(row.description)) {
+                    description = row.description
+                } else if (row?.description == null && row?.title != null && row.imageHref != null) {
+                    description = context?.resources?.getString(R.string.content_not_available)
+                }
+                if (row?.imageHref != null && !TextUtils.isEmpty(row.imageHref)) {
+                    imageURL = row.imageHref
+                }
+
+                if (title == null && description == null && imageURL == null) {
+                    continue
+                } else {
+                    rows?.add(DataModelItem(title, description, imageURL))
+                }
+
+            }
+        }
+    }
+
+    /*
+    * Used to initialise the views
+    * */
     private fun initView() {
         recyclerView = binding.recyclerView
+        binding.toolbar.title = getString(R.string.android_test)
 
 
     }
+    /*
+    * method to make API call
+    * */
 
     private fun callAPI() {
 
@@ -120,11 +150,15 @@ class ListFragment : Fragment() {
         if (NetworkUtility.isNetworkAvailable(mContext!!)) {
             viewModel.init()
         } else {
-            Toast.makeText(mContext, "Please ckeck your internet connection", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, getString(R.string.Internet_alert), Toast.LENGTH_SHORT).show()
             binding.simpleSwipeRefreshLayout.setRefreshing(false)
         }
     }
 
+    /**
+     * method to set the recycler view
+     * @param rowList
+     * */
     private fun setupRecyclerView(rowList: MutableList<DataModelItem>?) {
         var recyclerviewAdapter: RecyclerviewAdapter? = null
 
