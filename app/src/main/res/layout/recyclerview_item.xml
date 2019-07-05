@@ -12,6 +12,8 @@
                                        tool:cardCornerRadius="@dimen/dimen_5dp"
                                        tool:cardElevation="@dimen/dimen_5dp"
                                        tool:cardUseCompatPadding="true"
+                                       android:layout_marginLeft="@dimen/dimen_5dp"
+                                       android:layout_marginRight="@dimen/dimen_5dp"
                                        tool:cardBackgroundColor="@color/color_e0e0e0"
                                        android:background="@color/color_e0e0e0" android:layout_height="wrap_content"
                                        android:layout_width="match_parent">
