@@ -17,6 +17,10 @@
             <item name="android:windowNoTitle">true</item>
             <item name="android:windowDisablePreview">true</item>
             <item name="android:backgroundDimEnabled">false</item>
+            <item name="colorPrimary">@color/color_0d47a1</item>
+            <item name="colorPrimaryDark">@color/color_002171</item>
+            <item name="colorAccent">@color/color_0d47a1</item>
+
         </style>
 
 </resources>

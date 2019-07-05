@@ -9,11 +9,11 @@
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                        xmlns:tools="http://schemas.android.com/tools"
                                        xmlns:tool="http://schemas.android.com/apk/res-auto"
-                                       tool:cardCornerRadius="@dimen/dimen_10dp"
+                                       tool:cardCornerRadius="@dimen/dimen_5dp"
                                        tool:cardElevation="@dimen/dimen_5dp"
                                        tool:cardUseCompatPadding="true"
-                                       tool:cardBackgroundColor="@color/color_b0bec5"
-                                       android:background="@color/color_b0bec5" android:layout_height="wrap_content"
+                                       tool:cardBackgroundColor="@color/color_e0e0e0"
+                                       android:background="@color/color_e0e0e0" android:layout_height="wrap_content"
                                        android:layout_width="match_parent">
 
 
@@ -26,7 +26,7 @@
             <TextView android:id="@+id/title"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textSize="@dimen/dimen_18sp"
+                      android:textSize="@dimen/dimen_16sp"
                       android:textColor="@color/color_000000"
                       android:text="@{datamodel.title}"
                       android:padding="@dimen/dimen_10dp"
@@ -51,14 +51,15 @@
                    />
 
             <TextView
-                    android:textSize="12sp"
+                    android:textSize="@dimen/dimen_12sp"
                     android:id="@+id/discription"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dimen_0dp"
                     android:layout_height="wrap_content"
                     android:text="@{datamodel.discription}"
                     android:padding="@dimen/dimen_10dp"
                     android:textColor="@android:color/black"
                     android:layout_weight="7"
+
                     tool:layout_constraintLeft_toLeftOf="parent"
                     tool:layout_constraintRight_toLeftOf="@id/image"
                     tool:layout_constraintTop_toBottomOf="@id/title"

@@ -83,8 +83,10 @@ class ListFragment : Fragment() {
                         if (row?.title != null && !TextUtils.isEmpty(row.title)) {
                             title = row.title
                         }
-                        if (row?.description != null && !TextUtils.isEmpty(row.title)) {
+                        if (row?.description != null && !TextUtils.isEmpty(row.description)) {
                             description = row.description
+                        } else if (row?.description == null && row?.title != null && row.imageHref != null ){
+                            description = context?.resources?.getString(R.string.content_not_available)
                         }
                         if (row?.imageHref != null && !TextUtils.isEmpty(row.imageHref)) {
                             imageURL = row.imageHref
@@ -99,7 +101,8 @@ class ListFragment : Fragment() {
                     }
                 }
                 binding.simpleSwipeRefreshLayout.setRefreshing(false)
-                binding.ProgressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
+                binding.progressBarLayout.visibility = View.GONE
                 setupRecyclerView(rows)
             }
         })
