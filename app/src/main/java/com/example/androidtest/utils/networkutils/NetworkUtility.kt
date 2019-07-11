@@ -14,9 +14,9 @@ object NetworkUtility {
     fun isNetworkAvailable(context: Context): Boolean {
         val conn: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = conn.activeNetworkInfo
-        if (networkInfo != null)
-            return networkInfo.isConnected
+        return if (networkInfo != null)
+            networkInfo.isConnected
         else
-            return false
+            false
     }
 }

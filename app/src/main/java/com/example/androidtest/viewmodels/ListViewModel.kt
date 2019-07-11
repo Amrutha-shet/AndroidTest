@@ -1,7 +1,7 @@
 package com.example.androidtest.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -35,12 +35,12 @@ class ListViewModel : BaseViewModel() {
     fun getResponse() {
 
 
-        responseApi?.getResponse()?.enqueue(object : Callback<APIResponse> {
+        responseApi?.response?.enqueue(object : Callback<APIResponse> {
             override fun onResponse(
                 call: Call<APIResponse>,
                 response: Response<APIResponse>
             ) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful) {
                     responseData = response.body()
 
                     if (responseData != null) {

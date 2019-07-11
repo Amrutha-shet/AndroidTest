@@ -1,6 +1,6 @@
 package com.example.androidtest.utils
 
-import android.util.Log
+
 import android.widget.ImageView
 
 
@@ -16,11 +16,11 @@ object DataBindingUtils {
         fun loadImage(view: ImageView, imageUrl: String?) {
             imageUrl?.run {
                 Glide
-                    .with(view.getContext())
+                    .with(view.context)
                     .load(imageUrl)
                     .centerCrop()
                     .placeholder(R.drawable.ic_landscape_black_24dp)
-                    .into(view);
+                    .into(view)
 
             }
 

@@ -2,9 +2,7 @@ package com.example.androidtest.ui.fragments
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.androidtest.R
 
 import com.example.androidtest.databinding.ListFragmentBinding
@@ -65,12 +62,7 @@ class ListFragment : Fragment() {
      *
      * */
     private fun setPullToRefreshListener() {
-        binding.simpleSwipeRefreshLayout.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-                callAPI()
-            }
-
-        })
+        binding.simpleSwipeRefreshLayout.setOnRefreshListener { callAPI() }
     }
 
     /*
@@ -81,12 +73,12 @@ class ListFragment : Fragment() {
         viewModel.mutableLiveData.observe(this, Observer { apiResponse ->
             if (apiResponse != null) {
                 if (!TextUtils.isEmpty(apiResponse.title)) {
-                    binding.toolbar.setTitle(apiResponse.title)
+                    binding.toolbar.title = apiResponse.title
                 }
 
                 setRowdataList(apiResponse)
 
-                binding.simpleSwipeRefreshLayout.setRefreshing(false)
+                binding.simpleSwipeRefreshLayout.isRefreshing = false
                 binding.progressBar.visibility = View.GONE
                 binding.progressBarLayout.visibility = View.GONE
 
@@ -101,7 +93,8 @@ class ListFragment : Fragment() {
     * @param rows
     * */
     private fun setRowdataList(
-        apiResponse: APIResponse           ) {
+        apiResponse: APIResponse
+    ) {
         var rows: MutableList<DataModelItem>? = ArrayList()
         if (apiResponse.rows != null && apiResponse.rows?.size!! > 0) {
             for (row in apiResponse.rows!!) {
@@ -153,7 +146,7 @@ class ListFragment : Fragment() {
             viewModel.init()
         } else {
             Toast.makeText(mContext, getString(R.string.Internet_alert), Toast.LENGTH_SHORT).show()
-            binding.simpleSwipeRefreshLayout.setRefreshing(false)
+            binding.simpleSwipeRefreshLayout.isRefreshing = false
         }
     }
 
