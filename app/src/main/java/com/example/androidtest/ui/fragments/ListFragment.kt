@@ -86,21 +86,21 @@ class ListFragment : Fragment() {
         apiResponse: APIResponse
     ) {
         var rows: MutableList<DataModelItem>? = ArrayList()
-        if (apiResponse.rows != null && apiResponse.rows?.size!! > 0) {
-            for (row in apiResponse.rows!!) {
+        if (apiResponse.rows != null && apiResponse.rows.size > 0) {
+            for (row in apiResponse.rows) {
                 var description: String? = null
                 var title: String? = null
                 var imageURL: String? = null
 
-                if (row?.title != null && !TextUtils.isEmpty(row.title)) {
+                if (row.title != null && !TextUtils.isEmpty(row.title)) {
                     title = row.title
                 }
-                if (row?.description != null && !TextUtils.isEmpty(row.description)) {
+                if (row.description != null && !TextUtils.isEmpty(row.description)) {
                     description = row.description
-                } else if (row?.description == null && row?.title != null && row.imageHref != null) {
+                } else if (row.description == null && row.title != null && row.imageHref != null) {
                     description = context?.resources?.getString(R.string.content_not_available)
                 }
-                if (row?.imageHref != null && !TextUtils.isEmpty(row.imageHref)) {
+                if (row.imageHref != null && !TextUtils.isEmpty(row.imageHref)) {
                     imageURL = row.imageHref
                 }
 
