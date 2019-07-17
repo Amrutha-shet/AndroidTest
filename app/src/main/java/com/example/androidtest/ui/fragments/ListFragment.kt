@@ -85,7 +85,7 @@ class ListFragment : Fragment() {
     private fun setRowdataList(
         apiResponse: APIResponse
     ) {
-        var rows: MutableList<DataModelItem>? = ArrayList()
+        val rows: MutableList<DataModelItem>? = ArrayList()
         if (apiResponse.rows != null && apiResponse.rows.isNotEmpty()) {
             for (row in apiResponse.rows) {
                 var description: String? = null
