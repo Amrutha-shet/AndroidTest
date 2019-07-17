@@ -15,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidtest.R
 
 import com.example.androidtest.databinding.ListFragmentBinding
-import com.example.androidtest.model.APIResponse
 import com.example.androidtest.viewmodels.ListViewModel
 import com.example.androidtest.adapters.RecyclerviewAdapter
-import com.example.androidtest.model.Rows
 import com.example.androidtest.model.dataModel.DataModelItem
 import com.example.androidtest.utils.networkutils.NetworkUtility
 
@@ -70,67 +68,22 @@ class ListFragment : Fragment() {
                 if (!TextUtils.isEmpty(apiResponse.title)) {
                     binding.toolbar.title = apiResponse.title
                 }
-                setRowdataList(apiResponse)
+                viewModel.setRowdataList(apiResponse,context?.resources?.getString(R.string.content_not_available))
                 binding.simpleSwipeRefreshLayout.isRefreshing = false
                 binding.progressBar.visibility = View.GONE
                 binding.simpleSwipeRefreshLayout.visibility = View.VISIBLE
             }
         })
+        viewModel.recyclerViewList.observe(this, Observer {
+            if (it != null && it.isNotEmpty()) {
+                setupRecyclerView(it)
+            }
+        })
     }
 
-    /*
-    * Used to get a formatted list of row data
-    * @param apiResponse
-    * @param rows
-    * */
-    private fun setRowdataList(
-        apiResponse: APIResponse
-    ) {
-        val rows: MutableList<DataModelItem>? = ArrayList()
-        when {
-            apiResponse.rows != null && apiResponse.rows.isNotEmpty() ->
-                loop@ apiResponse.rows.forEach { row ->
-                    var description: String? = null
-                    var title: String? = null
-                    var imageURL: String? = null
-                    title = setTitle(row, title)
-                    description = setDescription(row, description)
-                    imageURL = setImageURL(row, imageURL)
-                    when {
-                        title == null && description == null && imageURL == null -> return@forEach
-                        else -> rows?.add(DataModelItem(title, description, imageURL))
-                    }
-                }
-        }
-        setupRecyclerView(rows)
-    }
 
-    private fun setImageURL(row: Rows, imageURL: String?): String? {
-        var imageURL1 = imageURL
-        when {
-            row.imageHref != null && !TextUtils.isEmpty(row.imageHref) -> imageURL1 = row.imageHref
-        }
-        return imageURL1
-    }
 
-    private fun setDescription(row: Rows, description: String?): String? {
-        var description1 = description
-        when {
-            row.description != null && !TextUtils.isEmpty(row.description) ->
-                description1 = row.description
-            row.description == null && row.title != null && row.imageHref != null ->
-                description1 = context?.resources?.getString(R.string.content_not_available)
-        }
-        return description1
-    }
 
-    private fun setTitle(row: Rows, title: String?): String? {
-        var title1 = title
-        when {
-            row.title != null && !TextUtils.isEmpty(row.title) -> title1 = row.title
-        }
-        return title1
-    }
 
     /*
     * Used to initialise the views
