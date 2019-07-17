@@ -73,9 +73,7 @@ class ListFragment : Fragment() {
                 setRowdataList(apiResponse)
                 binding.simpleSwipeRefreshLayout.isRefreshing = false
                 binding.progressBar.visibility = View.GONE
-                //binding.progressBarLayout.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-
+                binding.simpleSwipeRefreshLayout.visibility = View.VISIBLE
             }
         })
     }
