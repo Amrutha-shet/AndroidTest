@@ -11,47 +11,38 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_ffffff"
-    >
+            android:background="@color/color_ffffff">
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/color_0d47a1"
                 app:titleTextColor="@color/color_ffffff">
-
         </androidx.appcompat.widget.Toolbar>
         <LinearLayout
-                android:id="@+id/progressBar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-
             <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_50dp"
                     android:layout_gravity="center_vertical"
-                    android:progressDrawable="@drawable/circular_progress_bar"
-                    android:background="@drawable/circle_shape"
+                    style="?android:attr/progressBarStyle"
                     android:indeterminate="true"
                     android:visibility="visible"/>
-        </LinearLayout>
-
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/simpleSwipeRefreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-        >
-            <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:id="@+id/recycler_view"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/simpleSwipeRefreshLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-            </androidx.recyclerview.widget.RecyclerView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>
