@@ -120,7 +120,8 @@ class ListFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.mutableLiveData.removeObservers(this)//This is done to avoid multiple callback
+        viewModel.mutableLiveData.removeObservers(this)
+        viewModel.recyclerViewList.removeObservers(this)//This is done to avoid multiple callback
         // to observer during future fragment transaction
     }
 }
