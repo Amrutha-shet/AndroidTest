@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 
 object RetrofitService {
-    private val BASE_URL = "https://dl.dropboxusercontent.com/"
+    private const val BASE_URL = "https://dl.dropboxusercontent.com/"
     private var client = OkHttpClient.Builder()
         .connectTimeout(100, TimeUnit.SECONDS)
         .readTimeout(100, TimeUnit.SECONDS).build()

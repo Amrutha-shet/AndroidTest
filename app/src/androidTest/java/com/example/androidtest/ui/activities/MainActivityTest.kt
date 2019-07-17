@@ -4,7 +4,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
 import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
 import android.content.Intent
@@ -35,10 +34,10 @@ open class MainActivityTest {
     @Rule
     @JvmField
     var mActivityRule = ActivityTestRule(MainActivity::class.java)
-    private val MY_ACTIVITY_INTENT = Intent(InstrumentationRegistry.getTargetContext(), MainActivity::class.java)
+    private val ACTIVITY_INTENT = Intent(InstrumentationRegistry.getTargetContext(), MainActivity::class.java)
     @Before
     fun setUp() {
-        mActivityRule.launchActivity(MY_ACTIVITY_INTENT)
+        mActivityRule.launchActivity(ACTIVITY_INTENT)
         val fragment = ListFragment()
         mActivityRule.activity.supportFragmentManager.beginTransaction()
             .add(R.id.container_login, fragment, "Fragment Added")
@@ -69,7 +68,7 @@ open class MainActivityTest {
         }
     }
 
-    fun withCustomConstraints(action: ViewAction, constraints: Matcher<View>): ViewAction {
+    private fun withCustomConstraints(action: ViewAction, constraints: Matcher<View>): ViewAction {
         return object : ViewAction {
             override fun getConstraints(): Matcher<View> {
                 return constraints

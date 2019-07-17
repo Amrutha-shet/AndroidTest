@@ -86,7 +86,7 @@ class ListFragment : Fragment() {
         apiResponse: APIResponse
     ) {
         var rows: MutableList<DataModelItem>? = ArrayList()
-        if (apiResponse.rows != null && apiResponse.rows.size > 0) {
+        if (apiResponse.rows != null && apiResponse.rows.isNotEmpty()) {
             for (row in apiResponse.rows) {
                 var description: String? = null
                 var title: String? = null
