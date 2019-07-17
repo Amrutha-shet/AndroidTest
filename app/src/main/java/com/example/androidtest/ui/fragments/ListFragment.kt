@@ -26,7 +26,6 @@ class ListFragment : Fragment() {
     private lateinit var binding: ListFragmentBinding
     private var recyclerView: RecyclerView? = null
 
-
     companion object {
         fun newInstance() = ListFragment()
     }
@@ -37,7 +36,6 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false)
         val view: View = binding.root
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
@@ -49,11 +47,8 @@ class ListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initView()
-
         callAPI()
-
         initObserver()
-
         setPullToRefreshListener()
     }
 
@@ -69,20 +64,15 @@ class ListFragment : Fragment() {
      * Used to get a get the response data via observer
      * */
     private fun initObserver() {
-
         viewModel.mutableLiveData.observe(this, Observer { apiResponse ->
             if (apiResponse != null) {
                 if (!TextUtils.isEmpty(apiResponse.title)) {
                     binding.toolbar.title = apiResponse.title
                 }
-
                 setRowdataList(apiResponse)
-
                 binding.simpleSwipeRefreshLayout.isRefreshing = false
                 binding.progressBar.visibility = View.GONE
                 binding.progressBarLayout.visibility = View.GONE
-
-
             }
         })
     }
@@ -119,10 +109,8 @@ class ListFragment : Fragment() {
                 } else {
                     rows?.add(DataModelItem(title, description, imageURL))
                 }
-
             }
         }
-
         setupRecyclerView(rows)
     }
 
@@ -132,15 +120,12 @@ class ListFragment : Fragment() {
     private fun initView() {
         recyclerView = binding.recyclerView
         binding.toolbar.title = getString(R.string.android_test)
-
-
     }
     /*
     * method to make API call
     * */
 
     private fun callAPI() {
-
         val mContext = context
         if (NetworkUtility.isNetworkAvailable(mContext!!)) {
             viewModel.init()
@@ -156,7 +141,6 @@ class ListFragment : Fragment() {
      * */
     private fun setupRecyclerView(rowList: MutableList<DataModelItem>?) {
         var recyclerviewAdapter: RecyclerviewAdapter? = null
-
         if (recyclerviewAdapter == null) {
             recyclerView?.layoutManager = (LinearLayoutManager(context))
             recyclerviewAdapter = RecyclerviewAdapter(rowList)
@@ -166,8 +150,6 @@ class ListFragment : Fragment() {
             recyclerviewAdapter.notifyDataSetChanged()
         }
     }
-
-
 }
 
 

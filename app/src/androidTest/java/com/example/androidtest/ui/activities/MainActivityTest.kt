@@ -31,16 +31,17 @@ import junit.framework.AssertionFailedError
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 
 
-
 open class MainActivityTest {
     @Rule
-    @JvmField var mActivityRule = ActivityTestRule(MainActivity::class.java)
+    @JvmField
+    var mActivityRule = ActivityTestRule(MainActivity::class.java)
     private val MY_ACTIVITY_INTENT = Intent(InstrumentationRegistry.getTargetContext(), MainActivity::class.java)
     @Before
     fun setUp() {
         mActivityRule.launchActivity(MY_ACTIVITY_INTENT)
         val fragment = ListFragment()
-        mActivityRule.activity.supportFragmentManager.beginTransaction().add(R.id.container_login,fragment,"Fragment Added")
+        mActivityRule.activity.supportFragmentManager.beginTransaction()
+            .add(R.id.container_login, fragment, "Fragment Added")
 
     }
 
@@ -53,7 +54,6 @@ open class MainActivityTest {
 
     }
 
-
     @Test
     fun checkTextDisplayedInDynamicallyCreatedFragment() {
         try {
@@ -64,11 +64,9 @@ open class MainActivityTest {
 
         } catch (e: AssertionFailedError) {
             // View not displayed
-        } catch (e:NoMatchingViewException) {
+        } catch (e: NoMatchingViewException) {
 
         }
-
-
     }
 
     fun withCustomConstraints(action: ViewAction, constraints: Matcher<View>): ViewAction {

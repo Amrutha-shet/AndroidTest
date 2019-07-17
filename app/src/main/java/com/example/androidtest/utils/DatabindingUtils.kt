@@ -10,23 +10,16 @@ import com.example.androidtest.R
 
 
 object DataBindingUtils {
-
-        @JvmStatic
-        @BindingAdapter("bind:imageUrl")
-        fun loadImage(view: ImageView, imageUrl: String?) {
-            imageUrl?.run {
-                Glide
-                    .with(view.context)
-                    .load(imageUrl)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_landscape_black_24dp)
-                    .into(view)
-
-            }
-
+    @JvmStatic
+    @BindingAdapter("bind:imageUrl")
+    fun loadImage(view: ImageView, imageUrl: String?) {
+        imageUrl?.run {
+            Glide
+                .with(view.context)
+                .load(imageUrl)
+                .centerCrop()
+                .placeholder(R.drawable.ic_landscape_black_24dp)
+                .into(view)
         }
-
-
-
-
+    }
 }

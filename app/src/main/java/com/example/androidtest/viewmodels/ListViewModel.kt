@@ -1,10 +1,7 @@
 package com.example.androidtest.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.LiveData
+
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.androidtest.model.APIResponse
 import com.example.androidtest.model.repository.ResponseRepo
 import com.example.androidtest.utils.networkutils.APIEndpoint
@@ -12,7 +9,6 @@ import com.example.androidtest.webservice.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.SocketTimeoutException
 
 
 class ListViewModel : BaseViewModel() {
@@ -23,7 +19,6 @@ class ListViewModel : BaseViewModel() {
 
 
     fun init() {
-
         responseApi = RetrofitService.cteateService(APIEndpoint::class.java)
         newsRepository = ResponseRepo.instance
         getResponse()
@@ -32,9 +27,7 @@ class ListViewModel : BaseViewModel() {
     /*
     * Used to call api via retrofit instance
     * */
-    fun getResponse() {
-
-
+    private fun getResponse() {
         responseApi?.response?.enqueue(object : Callback<APIResponse> {
             override fun onResponse(
                 call: Call<APIResponse>,
@@ -46,9 +39,7 @@ class ListViewModel : BaseViewModel() {
                     if (responseData != null) {
                         mutableLiveData.value = responseData
                     }
-
                 }
-
             }
 
             override fun onFailure(call: Call<APIResponse>, t: Throwable) {
@@ -56,6 +47,4 @@ class ListViewModel : BaseViewModel() {
             }
         })
     }
-
-
 }
