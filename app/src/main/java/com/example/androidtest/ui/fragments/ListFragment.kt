@@ -68,7 +68,7 @@ class ListFragment : Fragment() {
                 if (!TextUtils.isEmpty(apiResponse.title)) {
                     binding.toolbar.title = apiResponse.title
                 }
-                viewModel.setRowdataList(apiResponse,context?.resources?.getString(R.string.content_not_available))
+                viewModel.setRowdataList(apiResponse, context?.resources?.getString(R.string.content_not_available))
                 binding.simpleSwipeRefreshLayout.isRefreshing = false
                 binding.progressBar.visibility = View.GONE
                 binding.simpleSwipeRefreshLayout.visibility = View.VISIBLE
@@ -80,10 +80,6 @@ class ListFragment : Fragment() {
             }
         })
     }
-
-
-
-
 
     /*
     * Used to initialise the views
