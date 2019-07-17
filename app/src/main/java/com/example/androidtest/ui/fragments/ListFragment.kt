@@ -47,8 +47,8 @@ class ListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initView()
-        callAPI()
         initObserver()
+        callAPI()
         setPullToRefreshListener()
     }
 
@@ -149,6 +149,12 @@ class ListFragment : Fragment() {
         } else {
             recyclerviewAdapter.notifyDataSetChanged()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.mutableLiveData.removeObservers(this)//This is done to avoid multiple callback
+        // to observer during future fragment transaction
     }
 }
 
