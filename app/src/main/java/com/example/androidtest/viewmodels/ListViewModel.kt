@@ -1,48 +1,49 @@
 package com.example.androidtest.viewmodels
 
 
+import android.app.Application
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.androidtest.R
 import com.example.androidtest.model.APIResponse
 import com.example.androidtest.model.Rows
 import com.example.androidtest.model.dataModel.DataModelItem
-import com.example.androidtest.model.repository.ResponseRepo
 import com.example.androidtest.utils.networkutils.APIEndpoint
 import com.example.androidtest.webservice.RetrofitService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 
-class ListViewModel : BaseViewModel() {
-    private var newsRepository: ResponseRepo? = null
-    private var responseApi: APIEndpoint? = null
-    var responseData: APIResponse? = null
-    var mutableLiveData: MutableLiveData<APIResponse> = MutableLiveData()
-    var recyclerViewList: MutableLiveData<MutableList<DataModelItem>> = MutableLiveData()
+class ListViewModel(application: Application) : BaseViewModel(application) {
+    private var responseApi: APIEndpoint = RetrofitService.cteateService(APIEndpoint::class.java)
+    private var errorMessege: MutableLiveData<String> = MutableLiveData()
+    private var response: MutableLiveData<MutableList<DataModelItem>> = MutableLiveData()
+    private var title: MutableLiveData<String> = MutableLiveData()
 
     fun init() {
-        responseApi = RetrofitService.cteateService(APIEndpoint::class.java)
-        newsRepository = ResponseRepo.instance
-        getResponse()
+        viewModelScope.launch {
+            getResponse()
+        }
     }
+
+    fun getResponseList(): LiveData<MutableList<DataModelItem>> = response
+    fun getErrorLiveData(): LiveData<String> = errorMessege
+    fun getTitle(): LiveData<String> = title
     /*
-    * Used to call api via retrofit instance
+    * Used to call api via retrofit instance using coroutine
     * */
-    private fun getResponse() {
-        responseApi?.response?.enqueue(object : Callback<APIResponse> {
-            override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                if (response.isSuccessful) {
-                    responseData = response.body()
-                    if (responseData != null) {
-                        mutableLiveData.value = responseData
-                    }
-                }
-            }
-            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                mutableLiveData.value = null
-            }
-        })
+    private suspend fun getResponse() {
+        val pair = processResponse(responseApi.response())
+        if (pair.first != null) {
+            title.value = (pair.first as APIResponse).title
+            setRowDataList(
+                pair.first as APIResponse, getApplication<Application>()
+                    .applicationContext.getString(R.string.content_not_available)
+            )
+        } else {
+            errorMessege.value = pair.second as String
+        }
     }
 
     /*
@@ -50,7 +51,7 @@ class ListViewModel : BaseViewModel() {
    * @param apiResponse
    * @param rows
    * */
-    fun setRowdataList(apiResponse: APIResponse, noDataString: String?) {
+    fun setRowDataList(apiResponse: APIResponse, noDataString: String?) {
         val rows: MutableList<DataModelItem>? = ArrayList()
         when {
             apiResponse.rows != null && apiResponse.rows.isNotEmpty() ->
@@ -64,7 +65,7 @@ class ListViewModel : BaseViewModel() {
                     }
                 }
         }
-        recyclerViewList.value = rows
+        response.value = rows
 
     }
 
